@@ -1,0 +1,2 @@
+task 'test', 'index.js', 'lib', 'test.js', ->
+    exec 'fox -b'

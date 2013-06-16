@@ -1,0 +1,19 @@
+{
+  "name": "domquery",
+  "version": "0.0.0",
+  "description": "A minimalistic clone of jQuery for only simple DOM programming",
+  "main": "index.js",
+  "repository": {
+    "url": "git@github.com:azer/domquery.git",
+    "type": "git"
+  },
+  "author": "Azer Koçulu <azer@kodfabrik.com>",
+  "license": "BSD",
+  "dependencies": {
+    "to-camel-case": "~0.2.0",
+    "new-chain": "0.0.0"
+  },
+  "devDependencies": {
+    "fox": "*"
+  }
+}
