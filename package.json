@@ -11,7 +11,7 @@
   "license": "BSD",
   "dependencies": {
     "to-camel-case": "~0.2.0",
-    "new-chain": "0.0.0"
+    "new-chain": "0.0.1"
   },
   "devDependencies": {
     "fox": "*"
