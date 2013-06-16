@@ -24,7 +24,7 @@ $ npm install domquery
 
 ### Events
 
-```
+```js
 query('#foo').on('click', function(eventArgs, element){
 
   eventArgs.screenX
