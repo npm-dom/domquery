@@ -1,6 +1,6 @@
 ## domquery
 
-A minimalistic clone of jQuery for only basic DOM programming.
+Minimalistic jQuery-like DOM programming library. Aims to be lightweight enough to libraries & components supposed to be distributed/shared.
 
 ```js
 query = require('domquery')
@@ -13,10 +13,6 @@ query('ul li.fruit')
   .addClass('open')
   .show()
 ```
-
-## Motivation
-
-domquery aims to be easy to embed in libraries supposed to be lightweight and easily distributed.
 
 ## Install
 
