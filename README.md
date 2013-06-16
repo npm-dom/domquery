@@ -1,6 +1,6 @@
 ## domquery
 
-A minimalistic clone of jQuery for only simple DOM programming.
+A minimalistic clone of jQuery for only basic DOM programming.
 
 ```js
 query = require('domquery')
