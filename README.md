@@ -20,19 +20,6 @@ query('ul li.fruit')
 $ npm install domquery
 ```
 
-## Usage Examples
-
-### Events
-
-```js
-query('#foo').on('click', function(eventArgs, element){
-
-  eventArgs.screenX
-  // => 123
-
-});
-```
-
 ## API
 
 * attr
