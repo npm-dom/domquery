@@ -37,10 +37,6 @@ $ wget https://raw.github.com/azer/domquery/master/dist/domquery.min.js
 
 * attr
 * html
-* off
-* on
-* show
-* style
 * text
 * val
 
@@ -58,8 +54,16 @@ Class methods:
 * removeClass
 * toggleClass
 
+CSS Methods
+
+* show
+* style
+* hide
+
 Event methods:
 
+* off
+* on
 * change
 * click
 * keydown
