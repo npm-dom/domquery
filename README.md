@@ -8,11 +8,12 @@ query = require('domquery')
 query('ul li.fruit')
   .style('background-color', 'red') // or { 'background-color': 'red' }
   .attr('data-foo', 'bar')
-  .removeClass('hidden')
   .click(onClickFruit) // or: on('click', onClickFruit)
   .addClass('open')
   .show()
 ```
+
+See full API below and tests for more docs.
 
 ## Install
 
