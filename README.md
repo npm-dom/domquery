@@ -1,6 +1,6 @@
 ## domquery
 
-Minimalistic jQuery-like DOM programming library. Aims to be lightweight enough to be included by compact library & component distributions.
+Minimalistic jQuery-like DOM programming library for compact library & component distributions.
 
 ```js
 query = require('domquery')
