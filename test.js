@@ -1,11 +1,12 @@
-var query = require("./");
+var query       = require("./"),
+    randomColor = require('random-color');
 
 function fruits(){
   return Array.prototype.slice.call(document.querySelectorAll('.fruits .fruit'));
 }
 
 before(function(done){
-  document.body.innerHTML += '<ul data-foo="bar" class="fruits"><li class="fruit">apple</li><li class="fruit">orange</li></ul>';
+  document.body.innerHTML += '<textarea></textarea><ul data-foo="bar" class="fruits"><li class="fruit">apple</li><li class="fruit">orange</li></ul>';
   done();
 });
 
@@ -104,4 +105,57 @@ it('styles an element', function(){
     expect(el.style.backgroundColor).to.equal('yellow');
     expect(el.style.border).to.equal('1px solid green');
   });
+});
+
+it('adds an event', function(){
+
+  query('.fruit').click(function(event){
+    query(event.target).style({ 'background-color': randomColor(), 'color': randomColor() });
+  });
+
+  query('textarea')
+    .keydown(function(){
+      query('textarea').style('background-color', randomColor());
+    });
+
+});
+
+it('returns the value of an element', function(){
+  query('textarea')[0].value = 'hello';
+  expect(query('textarea').val()).to.equal('hello');
+});
+
+it('sets the value of an element', function(){
+  query('textarea').val('foobar');
+  expect(query('textarea').val()).to.equal('foobar');
+});
+
+it('returns the text content of an element', function(){
+  query('.fruit:first-child')[0].innerText = 'grape';
+  expect(query('.fruit:first-child').text()).to.equal('grape');
+});
+
+it('sets the text content of an element', function(){
+  query('.fruit:first-child').text('cherry');
+  expect(query('.fruit:first-child').text()).to.equal('cherry');
+});
+
+it('returns the html content of an element', function(){
+  query('.fruit:first-child')[0].innerHTML = 'kiwi';
+  expect(query('.fruit:first-child').html()).to.equal('kiwi');
+});
+
+it('sets the html content of an element', function(){
+  query('.fruit:first-child').html('melon');
+  expect(query('.fruit:first-child').html()).to.equal('melon');
+});
+
+it('initializes a chain with given elements', function(){
+
+  query.apply(undefined, document.querySelectorAll('.fruit')).removeClass('corge').addClass('corge');
+
+  fruits().forEach(function(el){
+    expect(el.classList.contains('corge')).to.be.true;
+  });
+
 });

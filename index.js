@@ -3,13 +3,16 @@ var newChain  = require("new-chain"),
     classList = require('./lib/classlist'),
     effects   = require('./lib/effects'),
     events    = require('./lib/events'),
-    style     = require('./lib/style');
+    html      = require('./lib/html'),
+    style     = require('./lib/style'),
+    text      = require('./lib/text'),
+    val       = require('./lib/val');
 
 module.exports = select;
 
 function each(fn, elements){
   return function(){
-    var i, len, ret, params;
+    var i, len, ret, params, ret;
 
     len    = elements.length;
     i      = -1;
@@ -17,18 +20,23 @@ function each(fn, elements){
 
     while ( ++i < len ) {
       params[0] = elements[i];
-      fn.apply(undefined, params);
+      ret = fn.apply(undefined, params);
     }
+
+    return ret;
   };
 }
 
-
 function select(query){
-  var chain, elements;
+  var key, chain, methods, elements;
 
-  elements = Array.prototype.slice.call(document.querySelectorAll(query));
+  if ( typeof query == 'string' ) {
+    elements = Array.prototype.slice.call(document.querySelectorAll(query));
+  } else {
+    elements = Array.prototype.slice.call(arguments);
+  }
 
-  chain = newChain.from(elements)({
+  methods = {
     addClass    : each(classList.addClass, elements),
     hasClass    : each(classList.hasClass, elements),
     removeClass : each(classList.removeClass, elements),
@@ -36,17 +44,18 @@ function select(query){
     show        : each(effects.show, elements),
     hide        : each(effects.hide, elements),
     style       : each(style, elements)
-  });
-
-  chain.attr = function(name, value){
-
-    if ( arguments.length == 1 ) {
-      return attr(elements[0], name);
-    }
-
-    each(attr, elements)(name, value);
-
   };
+
+  for ( key in events ) {
+    methods[ key ] = each(events[key], elements);
+  }
+
+  chain = newChain.from(elements)(methods);
+
+  chain.attr = each(attr(chain), elements);
+  chain.html = each(html(chain), elements);
+  chain.text = each(text(chain), elements);
+  chain.val  = each(val(chain), elements);
 
   return chain;
 }

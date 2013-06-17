@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "A minimalistic clone of jQuery for only simple DOM programming",
   "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/indev test"
+  },
   "repository": {
     "url": "git@github.com:azer/domquery.git",
     "type": "git"
@@ -11,9 +14,11 @@
   "license": "BSD",
   "dependencies": {
     "to-camel-case": "~0.2.0",
-    "new-chain": "0.0.1"
+    "new-chain": "0.0.x"
   },
   "devDependencies": {
-    "fox": "*"
+    "fox": "*",
+    "indev": "*",
+    "random-color": "*"
   }
 }
