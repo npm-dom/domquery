@@ -80,4 +80,4 @@ $ npm test
 
 And visit localhost:7559.
 
-![](https://dl.dropboxusercontent.com/s/4nnw71f7k726wf3/npmel_29.jpg)
+![](https://dl.dropboxusercontent.com/s/ofqr0ha1all2nbl/npmel_30.jpg)
