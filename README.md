@@ -44,6 +44,13 @@ $ wget https://raw.github.com/azer/domquery/master/dist/domquery.min.js
 * text
 * val
 
+Element methods:
+
+* add
+* addBefore
+* replace
+* remove
+
 Class methods:
 
 * addClass

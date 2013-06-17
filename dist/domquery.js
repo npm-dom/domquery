@@ -1,13 +1,19 @@
 ;(function(process){  require.m = { 0:[function(require,module,exports){ window.query = window.domQuery = window.DOMQuery = require('./index');
- },{"./index":1}],1:[function(require,module,exports){ var newChain  = require("new-chain"),
-    attr      = require('./lib/attr'),
-    classList = require('./lib/classlist'),
-    effects   = require('./lib/effects'),
-    events    = require('./lib/events'),
-    html      = require('./lib/html'),
-    style     = require('./lib/style'),
-    text      = require('./lib/text'),
-    val       = require('./lib/val');
+ },{"./index":1}],1:[function(require,module,exports){ var select = require("./lib/select"),
+    create = require('./lib/create');
+
+module.exports = select;
+module.exports.create = create;
+ },{"./lib/select":2,"./lib/create":15}],2:[function(require,module,exports){ var newChain  = require("new-chain"),
+    attr      = require('./attr'),
+    children  = require('./children'),
+    classList = require('./classlist'),
+    effects   = require('./effects'),
+    events    = require('./events'),
+    html      = require('./html'),
+    style     = require('./style'),
+    text      = require('./text'),
+    val       = require('./val');
 
 module.exports = select;
 
@@ -33,13 +39,14 @@ function select(query){
 
   if ( typeof query == 'string' ) {
     elements = Array.prototype.slice.call(document.querySelectorAll(query));
+  } else if ( query == document ) {
+    elements = [document.documentElement];
   } else {
     elements = Array.prototype.slice.call(arguments);
   }
 
   methods = {
     addClass    : each(classList.addClass, elements),
-    hasClass    : each(classList.hasClass, elements),
     removeClass : each(classList.removeClass, elements),
     toggleClass : each(classList.toggleClass, elements),
     show        : each(effects.show, elements),
@@ -51,16 +58,28 @@ function select(query){
     methods[ key ] = each(events[key], elements);
   }
 
+  for ( key in children ) {
+    methods[ key ] = each(children[key], elements);
+  }
+
   chain = newChain.from(elements)(methods);
 
-  chain.attr = each(attr(chain), elements);
-  chain.html = each(html(chain), elements);
-  chain.text = each(text(chain), elements);
-  chain.val  = each(val(chain), elements);
+  chain.attr     = each(attr(chain), elements);
+  chain.hasClass = each(classList.hasClass, elements),
+  chain.html     = each(html(chain), elements);
+  chain.text     = each(text(chain), elements);
+  chain.val      = each(val(chain), elements);
 
   return chain;
 }
- },{"./lib/attr":2,"./lib/classlist":3,"./lib/effects":4,"./lib/events":7,"./lib/html":8,"./lib/style":5,"./lib/text":9,"./lib/val":10,"new-chain":11}],2:[function(require,module,exports){ module.exports = attr;
+ },{"./attr":3,"./children":4,"./classlist":6,"./effects":7,"./events":10,"./html":11,"./style":8,"./text":12,"./val":13,"new-chain":14}],15:[function(require,module,exports){ var select = require("./select");
+
+module.exports = create;
+
+function create(tag){
+  return select(document.createElement(tag));
+}
+ },{"./select":2}],3:[function(require,module,exports){ module.exports = attr;
 
 function attr(chain){
 
@@ -75,7 +94,39 @@ function attr(chain){
   };
 
 }
- },{}],3:[function(require,module,exports){ module.exports = {
+ },{}],4:[function(require,module,exports){ var unselect = require("./unselect");
+
+module.exports = {
+  add       : add,
+  addBefore : addBefore,
+  replace   : replace,
+  remove    : remove
+};
+
+function add(element, child){
+  element.appendChild(unselect(child));
+}
+
+function addBefore(element, child, ref){
+  element.insertBefore(unselect(child), pick(element, ref));
+}
+
+function pick(parent, child){
+  if ( typeof child == 'string') {
+     return parent.querySelector(child);
+  }
+
+  return unselect(child);
+}
+
+function replace(element, target, replacement){
+  element.replaceChild(unselect(replacement), pick(element, target));
+}
+
+function remove(element, child){
+  element.removeChild(pick(element, child));
+}
+ },{"./unselect":5}],6:[function(require,module,exports){ module.exports = {
   addClass    : addClass,
   hasClass    : hasClass,
   removeClass : removeClass,
@@ -87,7 +138,7 @@ function addClass(element, name){
 }
 
 function hasClass(element, name){
-  element.classList.contains(name);
+  return element.classList.contains(name);
 }
 
 function removeClass(element, name){
@@ -97,7 +148,7 @@ function removeClass(element, name){
 function toggleClass(element, name){
   element.classList.toggle(name);
 }
- },{}],4:[function(require,module,exports){ var style = require("./style");
+ },{}],7:[function(require,module,exports){ var style = require("./style");
 
 module.exports = {
   hide: hide,
@@ -111,7 +162,7 @@ function hide(element){
 function show(element){
   style(element, 'display', '');
 }
- },{"./style":5}],7:[function(require,module,exports){ module.exports = {
+ },{"./style":8}],10:[function(require,module,exports){ module.exports = {
   change    : event('change'),
   click     : event('click'),
   keydown   : event('keydown'),
@@ -138,7 +189,7 @@ function off(element, event, callback){
 function on(element, event, callback){
   element.addEventListener(event, callback, false);
 }
- },{}],8:[function(require,module,exports){ module.exports = html;
+ },{}],11:[function(require,module,exports){ module.exports = html;
 
 function html(chain){
   return function(element, newValue){
@@ -150,7 +201,7 @@ function html(chain){
     return element.innerHTML;
   };
 }
- },{}],5:[function(require,module,exports){ var toCamelCase = require("to-camel-case");
+ },{}],8:[function(require,module,exports){ var toCamelCase = require("to-camel-case");
 
 module.exports = style;
 
@@ -172,7 +223,7 @@ function style(element){
 
   return all(element, arguments[1]);
 }
- },{"to-camel-case":6}],9:[function(require,module,exports){ module.exports = text;
+ },{"to-camel-case":9}],12:[function(require,module,exports){ module.exports = text;
 
 function text(chain){
   return function(element, newValue){
@@ -184,7 +235,7 @@ function text(chain){
     return element.innerText;
   };
 }
- },{}],10:[function(require,module,exports){ module.exports = val;
+ },{}],13:[function(require,module,exports){ module.exports = val;
 
 function val(chain){
   return function(element, newValue){
@@ -196,7 +247,13 @@ function val(chain){
     return element.value;
   };
 }
- },{}],11:[function(require,module,exports){ module.exports = newChain;
+ },{}],5:[function(require,module,exports){ module.exports = unselect;
+
+function unselect(el){
+  if ( Array.isArray(el) ) return el[0];
+  return el;
+}
+ },{}],14:[function(require,module,exports){ module.exports = newChain;
 module.exports.from = from;
 
 function from(chain){
@@ -251,7 +308,7 @@ function methods(){
 function newChain(){
   return from({}).apply(undefined, arguments);
 }
- },{}],6:[function(require,module,exports){ /**
+ },{}],9:[function(require,module,exports){ /**
  * Convert a string to camel case
  *
  * @param {String} str
