@@ -16,7 +16,7 @@ it('returns an attr value', function(){
 
 it('sets an attr value', function(){
 
-  query('.fruit').attr('data-foo', 'bar');
+  query('.fruit').attr('data-foo', 'bar').style('background-color', randomColor());
 
   fruits().forEach(function(el){
     expect(el.getAttribute('data-foo')).to.equal('bar');
@@ -126,7 +126,7 @@ it('returns the value of an element', function(){
 });
 
 it('sets the value of an element', function(){
-  query('textarea').val('foobar');
+  query('textarea').val('foobar').style('background-color', randomColor());
   expect(query('textarea').val()).to.equal('foobar');
 });
 
@@ -136,7 +136,7 @@ it('returns the text content of an element', function(){
 });
 
 it('sets the text content of an element', function(){
-  query('.fruit:first-child').text('cherry');
+  query('.fruit:first-child').text('cherry').style('background-color', randomColor());
   expect(query('.fruit:first-child').text()).to.equal('cherry');
 });
 
@@ -146,7 +146,7 @@ it('returns the html content of an element', function(){
 });
 
 it('sets the html content of an element', function(){
-  query('.fruit:first-child').html('melon');
+  query('.fruit:first-child').html('melon').style('background-color', randomColor());
   expect(query('.fruit:first-child').html()).to.equal('melon');
 });
 
