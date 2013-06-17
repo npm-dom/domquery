@@ -20,6 +20,19 @@ query('ul li.fruit')
 $ npm install domquery
 ```
 
+Or:
+
+```bash
+$ wget https://raw.github.com/azer/domquery/master/dist/domquery.min.js
+```
+
+```html
+<script src="domquery.min.js"></script>
+<script>
+  query('.fruit').style('color', 'red').show()
+</script>
+```
+
 ## API
 
 * attr
