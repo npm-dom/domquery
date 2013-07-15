@@ -185,9 +185,17 @@ it('adds HTML', function(){
   expect(query('.fruit:last-child').text()).to.be.equal('a fresh watermelon');
 });
 
+it('creates and inserts HTML', function(){
+  query('<li class="new very-new fruit">very fresh peach</li>').insert('.fruits');
+  expect(query('.fruit:last-child').hasClass('new')).to.be.true;
+  expect(query('.fruit:last-child').hasClass('very-new')).to.be.true;
+  expect(query('.fruit:last-child').hasClass('fruit')).to.be.true;
+  expect(query('.fruit:last-child').text()).to.be.equal('very fresh peach');
+});
+
 it('initializes a chain with given elements', function(){
 
-  query.apply(undefined, document.querySelectorAll('.fruit')).removeClass('corge').addClass('corge');
+  query.apply(undefined, Array.prototype.slice.call(document.querySelectorAll('.fruit'))).removeClass('corge').addClass('corge');
 
   fruits().forEach(function(el){
     expect(el.classList.contains('corge')).to.be.true;
