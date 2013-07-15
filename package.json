@@ -19,7 +19,8 @@
   "dependencies": {
     "to-camel-case": "~0.2.0",
     "new-chain": "0.0.x",
-    "domify": "~1.0.0"
+    "domify": "~1.0.0",
+    "keynames": "0.0.0"
   },
   "devDependencies": {
     "fox": "*",

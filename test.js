@@ -2,7 +2,7 @@ var query       = require("./"),
     randomColor = require('random-color');
 
 var HTML = (function(){/*
-                        <textarea></textarea>
+                        <textarea style="width:300px; height:200px"></textarea>
                         <ul data-foo="bar" class="fruits">
                         <li class="fruit">apple</li>
                         <li class="fruit">orange</li>
@@ -16,6 +16,11 @@ function fruits(){
 
 before(function(done){
   document.body.innerHTML += HTML;
+
+  query('textarea').on(':ctrl :alt :space', function(){
+    query('textarea').val('');
+  });
+
   done();
 });
 
