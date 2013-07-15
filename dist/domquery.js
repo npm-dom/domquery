@@ -4,7 +4,7 @@
 
 module.exports = select;
 module.exports.create = create;
- },{"./lib/select":2,"./lib/create":18}],2:[function(require,module,exports){ var newChain  = require("new-chain"),
+ },{"./lib/select":2,"./lib/create":20}],2:[function(require,module,exports){ var newChain  = require("new-chain"),
     attr      = require('./attr'),
     children  = require('./children'),
     classList = require('./classlist'),
@@ -75,7 +75,7 @@ function select(query){
 
   return chain;
 }
- },{"./attr":3,"./children":4,"./classlist":9,"./effects":10,"./events":13,"./html":14,"./style":11,"./text":15,"./parse":7,"./val":16,"new-chain":17}],18:[function(require,module,exports){ var select = require("./select");
+ },{"./attr":3,"./children":4,"./classlist":9,"./effects":10,"./events":13,"./html":16,"./style":11,"./text":17,"./parse":7,"./val":18,"new-chain":19}],20:[function(require,module,exports){ var select = require("./select");
 
 module.exports = create;
 
@@ -170,7 +170,9 @@ function hide(element){
 function show(element){
   style(element, 'display', '');
 }
- },{"./style":11}],13:[function(require,module,exports){ module.exports = {
+ },{"./style":11}],13:[function(require,module,exports){ var keyboard = require("./keyboard");
+
+module.exports = {
   change    : event('change'),
   click     : event('click'),
   keydown   : event('keydown'),
@@ -195,9 +197,13 @@ function off(element, event, callback){
 }
 
 function on(element, event, callback){
+  if(event.charAt(0) == ':') {
+    return keyboard.on(element, event, callback);
+  }
+
   element.addEventListener(event, callback, false);
 }
- },{}],14:[function(require,module,exports){ module.exports = html;
+ },{"./keyboard":14}],16:[function(require,module,exports){ module.exports = html;
 
 function html(chain){
   return function(element, newValue){
@@ -231,7 +237,7 @@ function style(element){
 
   return all(element, arguments[1]);
 }
- },{"to-camel-case":12}],15:[function(require,module,exports){ module.exports = text;
+ },{"to-camel-case":12}],17:[function(require,module,exports){ module.exports = text;
 
 function text(chain){
   return function(element, newValue){
@@ -244,7 +250,7 @@ function text(chain){
   };
 }
  },{}],7:[function(require,module,exports){ module.exports = require("domify");
- },{"domify":8}],16:[function(require,module,exports){ module.exports = val;
+ },{"domify":8}],18:[function(require,module,exports){ module.exports = val;
 
 function val(chain){
   return function(element, newValue){
@@ -256,7 +262,25 @@ function val(chain){
     return element.value;
   };
 }
- },{}],5:[function(require,module,exports){ var isHTML = require("./is-html"),
+ },{}],14:[function(require,module,exports){ var map = require('keynames');
+
+module.exports = {
+  on: on
+};
+
+function listOf(key){
+  return key.replace(/^\:/g, '').split(':').map(function(key){
+  });
+}
+
+function on(element, keys, callback){
+  var expected = listOf(keys);
+
+  element.addEventListener('keyup', function(event){
+
+  }, false);
+}
+ },{"keynames":15}],5:[function(require,module,exports){ var isHTML = require("./is-html"),
     parse = require('./parse');
 
 module.exports = unselect;
@@ -271,7 +295,7 @@ function unselect(el){
 function isHTML(text){
   return typeof text == 'string' && /<\w+\s/.test(text);
 }
- },{}],17:[function(require,module,exports){ module.exports = newChain;
+ },{}],19:[function(require,module,exports){ module.exports = newChain;
 module.exports.from = from;
 
 function from(chain){
@@ -412,4 +436,28 @@ module.exports = function (str, first) {
     str = str.charAt(0).toUpperCase() + str.slice(1)
 
   return str
-} },{}] }; function require(o){ if(o[2]) return o[2].exports; o[0](function(u){ if(!require.m[o[1][u]]) { throw new Error('Cannot find module "' + u + '"'); } return require(require.m[o[1][u]]); }, o[2] = { exports: {} }, o[2].exports); return o[2].exports; };  return require(require.m[0]); }({ env:{} }));
+} },{}],15:[function(require,module,exports){ module.exports = {
+  8   : 'backspace',
+  9   : 'tab',
+  13  : 'enter',
+  16  : 'shift',
+  17  : 'ctrl',
+  18  : 'alt',
+  20  : 'capslock',
+  27  : 'esc',
+  32  : 'space',
+  33  : 'pageup',
+  34  : 'pagedown',
+  35  : 'end',
+  36  : 'home',
+  37  : 'left',
+  38  : 'up',
+  39  : 'right',
+  40  : 'down',
+  45  : 'ins',
+  46  : 'del',
+  91  : 'meta',
+  93  : 'meta',
+  224 : 'meta'
+};
+ },{}] }; function require(o){ if(o[2]) return o[2].exports; o[0](function(u){ if(!require.m[o[1][u]]) { throw new Error('Cannot find module "' + u + '"'); } return require(require.m[o[1][u]]); }, o[2] = { exports: {} }, o[2].exports); return o[2].exports; };  return require(require.m[0]); }({ env:{} }));
