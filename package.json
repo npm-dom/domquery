@@ -1,6 +1,6 @@
 {
   "name": "domquery",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A minimalistic clone of jQuery for only simple DOM programming",
   "main": "index.js",
   "scripts": {
