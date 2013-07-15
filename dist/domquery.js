@@ -13,6 +13,7 @@ module.exports.create = create;
     html      = require('./html'),
     style     = require('./style'),
     text      = require('./text'),
+    parse     = require('./parse'),
     val       = require('./val');
 
 module.exports = select;
@@ -37,7 +38,9 @@ function each(fn, elements){
 function select(query){
   var key, chain, methods, elements;
 
-  if ( typeof query == 'string' ) {
+  if ( typeof query == 'string' && '<' == query.charAt(0) ) {
+    elements = [parse(query)];
+  } else if ( typeof query == 'string' ) {
     elements = Array.prototype.slice.call(document.querySelectorAll(query));
   } else if ( query == document ) {
     elements = [document.documentElement];
@@ -72,7 +75,7 @@ function select(query){
 
   return chain;
 }
- },{"./attr":3,"./children":4,"./classlist":9,"./effects":10,"./events":13,"./html":14,"./style":11,"./text":15,"./val":16,"new-chain":17}],18:[function(require,module,exports){ var select = require("./select");
+ },{"./attr":3,"./children":4,"./classlist":9,"./effects":10,"./events":13,"./html":14,"./style":11,"./text":15,"./parse":7,"./val":16,"new-chain":17}],18:[function(require,module,exports){ var select = require("./select");
 
 module.exports = create;
 
@@ -97,10 +100,11 @@ function attr(chain){
  },{}],4:[function(require,module,exports){ var unselect = require("./unselect");
 
 module.exports = {
-  add       : add,
-  addBefore : addBefore,
-  replace   : replace,
-  remove    : remove
+  add          : add,
+  addBefore    : addBefore,
+  insert       : insert,
+  replace      : replace,
+  remove       : remove
 };
 
 function add(element, child){
@@ -109,6 +113,10 @@ function add(element, child){
 
 function addBefore(element, child, ref){
   element.insertBefore(unselect(child), pick(element, ref));
+}
+
+function insert(element, parent){
+  add(pick(document, parent), element);
 }
 
 function pick(parent, child){
@@ -235,7 +243,8 @@ function text(chain){
     return element.textContent;
   };
 }
- },{}],16:[function(require,module,exports){ module.exports = val;
+ },{}],7:[function(require,module,exports){ module.exports = require("domify");
+ },{"domify":8}],16:[function(require,module,exports){ module.exports = val;
 
 function val(chain){
   return function(element, newValue){
@@ -262,8 +271,7 @@ function unselect(el){
 function isHTML(text){
   return typeof text == 'string' && /<\w+\s/.test(text);
 }
- },{}],7:[function(require,module,exports){ module.exports = require("domify");
- },{"domify":8}],17:[function(require,module,exports){ module.exports = newChain;
+ },{}],17:[function(require,module,exports){ module.exports = newChain;
 module.exports.from = from;
 
 function from(chain){
