@@ -1,12 +1,21 @@
 var query       = require("./"),
     randomColor = require('random-color');
 
+var HTML = (function(){/*
+                        <textarea></textarea>
+                        <ul data-foo="bar" class="fruits">
+                        <li class="fruit">apple</li>
+                        <li class="fruit">orange</li>
+                        <li class="fruit">plum</li>
+                        </ul>
+                        */}).toString().slice(17, -4);
+
 function fruits(){
   return Array.prototype.slice.call(document.querySelectorAll('.fruits .fruit'));
 }
 
 before(function(done){
-  document.body.innerHTML += '<textarea></textarea><ul data-foo="bar" class="fruits"><li class="fruit">apple</li><li class="fruit">orange</li></ul>';
+  document.body.innerHTML += HTML;
   done();
 });
 
@@ -163,11 +172,17 @@ it('creates a new element', function(){
   expect(parent.hasClass('parent')).to.be.true;
 });
 
-
 it('adds a child element', function(){
   var child = query.create('li').addClass('fruit').addClass('new').html('yo');
   query('.fruits').add(child);
   expect(query('.fruit:last-child')[0]).to.be.equal(child[0]);
+});
+
+it('adds HTML', function(){
+  query('.fruits').add('<li class="new fruit">a fresh watermelon</li>');
+  expect(query('.fruit:last-child').hasClass('new')).to.be.true;
+  expect(query('.fruit:last-child').hasClass('fruit')).to.be.true;
+  expect(query('.fruit:last-child').text()).to.be.equal('a fresh watermelon');
 });
 
 it('initializes a chain with given elements', function(){
