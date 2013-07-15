@@ -3,15 +3,24 @@
 Minimalistic jQuery-like DOM programming library for compact library & component distributions.
 
 ```js
-query = require('domquery')
+dom = require('domquery')
 
-query('ul li.fruit')
+dom('ul li.fruit')
   .style('background-color', 'red') // or { 'background-color': 'red' }
   .attr('data-foo', 'bar')
   .click(onClickFruit) // or: on('click', onClickFruit)
   .addClass('open')
   .add('<span>hello!</span>')
+  .on('click', function(){ alert('yo!'); })
   .show()
+```
+
+Keyboard events:
+
+```js
+dom('<input />')
+  .on(':ctrl :alt :space', function(element, event){ alert('hello!'); })
+  .insert('body');
 ```
 
 See full API below and tests for more docs.
