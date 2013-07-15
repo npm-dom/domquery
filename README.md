@@ -10,6 +10,7 @@ query('ul li.fruit')
   .attr('data-foo', 'bar')
   .click(onClickFruit) // or: on('click', onClickFruit)
   .addClass('open')
+  .add('<span>hello!</span>')
   .show()
 ```
 
