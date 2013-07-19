@@ -191,7 +191,7 @@ it('adds HTML', function(){
 });
 
 it('creates and inserts HTML', function(){
-  query('<li class="new very-new fruit">very fresh peach</li>').insert('.fruits');
+  query('<li class="new very-new fruit">very fresh {fruit}</li>', { fruit: 'peach' }).insert('.fruits');
   expect(query('.fruit:last-child').hasClass('new')).to.be.true;
   expect(query('.fruit:last-child').hasClass('very-new')).to.be.true;
   expect(query('.fruit:last-child').hasClass('fruit')).to.be.true;
