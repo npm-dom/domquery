@@ -1,3 +1,5 @@
+test = bin 'fox'
+
 all 'dist/domquery.js'
 
 target 'dist/domquery.js', 'index.js', 'global.js', 'lib', ->
@@ -8,4 +10,4 @@ target 'dist/domquery.js', 'index.js', 'global.js', 'lib', ->
     exec 'uglifyjs dist/domquery.js -o dist/domquery.min.js'
 
 task 'test', 'index.js', 'lib', 'test.js', ->
-    exec 'fox -bv'
+    test '-b'
