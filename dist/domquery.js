@@ -4,7 +4,8 @@
 
 module.exports = select;
 module.exports.create = create;
- },{"./lib/select":2,"./lib/create":20}],2:[function(require,module,exports){ var newChain  = require("new-chain"),
+ },{"./lib/select":2,"./lib/create":21}],2:[function(require,module,exports){ var newChain  = require("new-chain"),
+    format    = require('new-format'),
     attr      = require('./attr'),
     children  = require('./children'),
     classList = require('./classlist'),
@@ -39,7 +40,7 @@ function select(query){
   var key, chain, methods, elements;
 
   if ( typeof query == 'string' && '<' == query.charAt(0) ) {
-    elements = [parse(query)];
+    elements = [parse(arguments.length > 1 ? format.apply(undefined, arguments) : query)];
   } else if ( typeof query == 'string' ) {
     elements = Array.prototype.slice.call(document.querySelectorAll(query));
   } else if ( query == document ) {
@@ -75,7 +76,7 @@ function select(query){
 
   return chain;
 }
- },{"./attr":3,"./children":4,"./classlist":9,"./effects":10,"./events":13,"./html":16,"./style":11,"./text":17,"./parse":7,"./val":18,"new-chain":19}],20:[function(require,module,exports){ var select = require("./select");
+ },{"./attr":3,"./children":4,"./classlist":9,"./effects":10,"./events":13,"./html":16,"./style":11,"./text":17,"./parse":7,"./val":18,"new-chain":19,"new-format":20}],21:[function(require,module,exports){ var select = require("./select");
 
 module.exports = create;
 
@@ -262,22 +263,50 @@ function val(chain){
     return element.value;
   };
 }
- },{}],14:[function(require,module,exports){ var map = require('keynames');
+ },{}],14:[function(require,module,exports){ var keynames = require('keynames');
 
 module.exports = {
   on: on
 };
 
-function listOf(key){
-  return key.replace(/^\:/g, '').split(':').map(function(key){
-  });
+function options(key){
+  var expected = {}, keys = key.replace(/^\:/g, '').split(':');
+
+  var i = keys.length, name;
+  while ( i -- ){
+    name = keys[i].trim();
+
+    if(name == 'ctrl') {
+      expected.ctrl = true;
+      continue;
+    }
+
+    if(name == 'alt') {
+      expected.alt = true;
+      continue;
+    }
+
+    if(name == 'shift') {
+      expected.shift = true;
+      continue;
+    }
+
+    expected.key = name.trim();
+  }
+
+  return expected;
 }
 
 function on(element, keys, callback){
-  var expected = listOf(keys);
+  var expected = options(keys);
 
   element.addEventListener('keyup', function(event){
-
+    if((event.ctrlKey || undefined) == expected.ctrl &&
+       (event.altKey || undefined) == expected.alt &&
+       (event.shiftKey || undefined) == expected.shift &&
+       keynames[event.keyCode] == expected.key){
+      callback(event);
+    }
   }, false);
 }
  },{"keynames":15}],5:[function(require,module,exports){ var isHTML = require("./is-html"),
@@ -349,6 +378,42 @@ function methods(){
 
 function newChain(){
   return from({}).apply(undefined, arguments);
+}
+ },{}],20:[function(require,module,exports){ module.exports = format;
+
+function findContext(args){
+  if(typeof args[1] == 'object' && args[1])
+    return args[1];
+
+  return Array.prototype.slice.call(args, 1);
+}
+
+function format(text) {
+  var context = findContext(arguments);
+
+  return String(text).replace(/\{?\{([^{}]+)}}?/g, replace(context));
+};
+
+function replace(context, nil){
+
+  return function(tag, name) {
+
+    if(tag.substring(0, 2) == '{{' && tag.substring(tag.length - 2) == '}}'){
+      return '{' + name + '}';
+    }
+
+    if( !context.hasOwnProperty(name) ){
+      return tag;
+    }
+
+    if( typeof context[name] == 'function' ){
+      return context[name]();
+    }
+
+    return context[name];
+
+  }
+
 }
  },{}],8:[function(require,module,exports){ 
 /**
