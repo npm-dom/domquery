@@ -150,8 +150,11 @@ it('returns the text content of an element', function(){
 });
 
 it('sets the text content of an element', function(){
-  query('.fruit:first-child').text('cherry').style('background-color', randomColor());
-  expect(query('.fruit:first-child').text()).to.equal('cherry');
+  query('.fruit:first-child').text('a delicious {fruit}', { fruit: 'cherry' }).style('background-color', randomColor());
+  expect(query('.fruit:first-child').text()).to.equal('a delicious cherry');
+
+  query('.fruit:first-child').text('tasty cherries').style('background-color', randomColor());
+  expect(query('.fruit:first-child').text()).to.equal('tasty cherries');
 });
 
 it('returns the html content of an element', function(){
@@ -160,8 +163,10 @@ it('returns the html content of an element', function(){
 });
 
 it('sets the html content of an element', function(){
-  query('.fruit:first-child').html('melon').style('background-color', randomColor());
-  expect(query('.fruit:first-child').html()).to.equal('melon');
+  query('.fruit:first-child').html('a delicious {fruit}', { fruit: 'melon' }).style('background-color', randomColor());
+  expect(query('.fruit:first-child').html()).to.equal('a delicious melon');
+  query('.fruit:first-child').html('a tasty melon').style('background-color', randomColor());
+  expect(query('.fruit:first-child').html()).to.equal('a tasty melon');
 });
 
 it('creates a new element', function(){
@@ -184,10 +189,15 @@ it('adds a child element', function(){
 });
 
 it('adds HTML', function(){
-  query('.fruits').add('<li class="new fruit">a fresh watermelon</li>');
+  query('.fruits').add('<li class="new fruit">a fresh {fruit}</li>', { fruit: 'watermelon' });
   expect(query('.fruit:last-child').hasClass('new')).to.be.true;
   expect(query('.fruit:last-child').hasClass('fruit')).to.be.true;
   expect(query('.fruit:last-child').text()).to.be.equal('a fresh watermelon');
+
+  query('.fruits').add('<li class="new fruit">a very fresh apple</li>');
+  expect(query('.fruit:last-child').hasClass('new')).to.be.true;
+  expect(query('.fruit:last-child').hasClass('fruit')).to.be.true;
+  expect(query('.fruit:last-child').text()).to.be.equal('a very fresh apple');
 });
 
 it('creates and inserts HTML', function(){
@@ -196,6 +206,20 @@ it('creates and inserts HTML', function(){
   expect(query('.fruit:last-child').hasClass('very-new')).to.be.true;
   expect(query('.fruit:last-child').hasClass('fruit')).to.be.true;
   expect(query('.fruit:last-child').text()).to.be.equal('very fresh peach');
+});
+
+it('removes itself', function(){
+  var last = query('.fruit:last-child').text();
+  query('<li class="fruit">to be removed</li>').insert('.fruits');
+  expect(query('.fruit:last-child').text()).to.be.equal('to be removed');
+  query('.fruit:last-child').remove();
+  expect(query('.fruit:last-child').text()).to.be.equal(last);
+});
+
+it('selects the children', function(){
+  var newf  = query('.fruits').select('.new'),
+      clone = query('.fruits .new');
+  expect(newf.length).to.equal(clone.length);
 });
 
 it('initializes a chain with given elements', function(){
