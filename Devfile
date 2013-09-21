@@ -1,13 +1,15 @@
 test = bin 'fox'
+uglify = bin 'uglify-js/uglifyjs'
+onejs = bin 'one/onejs'
 
 all 'dist/domquery.js'
 
 target 'dist/domquery.js', 'index.js', 'global.js', 'lib', ->
     debug 'Writing dist/domquery.js'
-    exec 'onejs global.js -o dist/domquery.js'
+    onejs 'global.js -o dist/domquery.js'
 
     debug 'Writing dist/domquery.min.js'
-    exec 'uglifyjs dist/domquery.js -o dist/domquery.min.js'
+    uglify 'dist/domquery.js -o dist/domquery.min.js'
 
-task 'test', 'index.js', 'lib', 'test.js', ->
+task 'test', 'index.js', 'lib', 'node_modules', 'test.js', ->
     test '-b'

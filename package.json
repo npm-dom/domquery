@@ -1,7 +1,7 @@
 {
   "name": "domquery",
-  "version": "0.0.11",
-  "description": "A minimalistic clone of jQuery for only simple DOM programming",
+  "version": "1.0.0",
+  "description": "Handy jQuery-like DOM Programming Library",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/indev test"
@@ -21,11 +21,22 @@
     "new-chain": "0.0.x",
     "domify": "~1.0.0",
     "keynames": "0.0.0",
-    "new-format": "0.0.1"
+    "new-format": "0.0.1",
+    "on-off": "0.0.2",
+    "delegate-dom": "0.0.0",
+    "bind-key": "0.0.0",
+    "trim": "0.0.1",
+    "dom-classes": "0.0.0",
+    "dom-children": "0.0.0",
+    "new-element": "0.0.1",
+    "select-dom": "0.0.0",
+    "style-dom": "0.0.0"
   },
   "devDependencies": {
     "fox": "*",
     "indev": "*",
-    "random-color": "*"
+    "random-color": "*",
+    "uglify-js":"*",
+    "one": "*"
   }
 }

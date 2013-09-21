@@ -17,7 +17,7 @@ function fruits(){
 before(function(done){
   document.body.innerHTML += HTML;
 
-  query('textarea').on(':ctrl :alt :space', function(){
+  query('textarea').on('> alt space', function(){
     query('textarea').val('');
   });
 
@@ -171,9 +171,9 @@ it('sets the html content of an element', function(){
 
 it('creates a new element', function(){
   var parent = query.create('div').addClass('parent'),
-      child1 = query.create('p').html('child 1'),
+      child1 = query.create('<p>child 1</p>'),
       child2 = query.create('span').html('child 2'),
-      child3 = query.create('label').html('child 3'),
+      child3 = query.create('<label>child 3</label>'),
       child4 = query.create('strong').html('child 4');
 
   parent.add(child1).add(child2).replace(child1, child3).add(child4).remove('span');

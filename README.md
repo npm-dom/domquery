@@ -10,8 +10,9 @@ dom('ul li.fruit')
   .attr('data-foo', 'bar')
   .click(onClickFruit) // or: on('click', onClickFruit)
   .addClass('open')
-  .add('<span>hello!</span>')
-  .on('click', function(){ alert('yo!'); })
+  .add('<h1>{title}</h1>{content}', { title: 'Hello', content: 'lorem ipsum' })
+  .on('click', function () { alert('clicked <ul>'); })
+  .on('click li', function () { alert('clicked <li>') })
   .show()
 ```
 
@@ -19,7 +20,7 @@ Keyboard events:
 
 ```js
 dom('<input />')
-  .on(':ctrl :alt :space', function(element, event){ alert('hello!'); })
+  .on('> ctrl alt space', function(element, event){ alert('hello!'); })
   .insert('body');
 ```
 
@@ -84,6 +85,18 @@ Event methods:
 * mouseover
 * mouseup
 * resize
+
+## Manuals
+
+domquery is based on following libraries. check out their manuals for detailed info:
+
+* [bind-key](http://github.com/azer/bind-key)
+* [on-off](http://github.com/azer/on-off)
+* [dom-classes](http://github.com/azer/dom-classes)
+* [dom-children](http://github.com/azer/dom-children)
+* [new-element](http://github.com/azer/new-element)
+* [select-dom](http://github.com/azer/select-dom)
+* [style-dom](http://github.com/azer/style-dom)
 
 ## Testing
 
