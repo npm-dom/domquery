@@ -27,7 +27,7 @@
     "bind-key": "0.0.0",
     "trim": "0.0.1",
     "dom-classes": "0.0.0",
-    "dom-children": "0.0.0",
+    "dom-children": "0.0.x",
     "new-element": "0.0.1",
     "select-dom": "0.0.0",
     "style-dom": "0.0.0"

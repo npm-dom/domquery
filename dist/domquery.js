@@ -413,9 +413,9 @@ module.exports = function(arr, obj){
 var select = require('./select');
 
 module.exports = {
-  add: add,
-  addAfter: addAfter,
-  addBefore: addBefore,
+  add: withChildren(add),
+  addAfter: withChildren(addAfter),
+  addBefore: withChildren(addBefore),
   insert: insert,
   replace: replace,
   remove: remove
@@ -450,7 +450,7 @@ function insert (element /*[,vars], parent */) {
 }
 
 function replace (parent, target, repl, vars) {
-  select(parent).replaceChild(newElement(repl, vars), select(target, parent));
+  select(parent).replaceChild(select(newElement(repl, vars)), select(target, parent));
 }
 
 function remove (element, child) {
@@ -467,6 +467,21 @@ function remove (element, child) {
     all[i].parentNode.removeChild(all[i]);
   }
 
+}
+
+function withChildren (fn) {
+  return function (_, children) {
+    if (!Array.isArray(children)) children = [children];
+
+    var i = -1;
+    var len = children.length;
+    var params = Array.prototype.slice.call(arguments);
+
+    while (++i < len) {
+      params[1] = children[i];
+      fn.apply(undefined, params);
+    }
+  };
 }
  },{"./new-element":54,"./select":57}],54:[function(require,module,exports){ var newElement = require("new-element");
 
@@ -486,6 +501,10 @@ module.exports = ifNecessary;
 module.exports.all = ifNecessaryAll;
 
 function ifNecessary (child, parent) {
+  if (Array.isArray(child)) {
+    child = child[0];
+  }
+
   if ( typeof child != 'string') {
     return child;
   }
@@ -498,6 +517,10 @@ function ifNecessary (child, parent) {
 }
 
 function ifNecessaryAll (child, parent) {
+  if (Array.isArray(child)) {
+    child = child[0];
+  }
+
   if ( typeof child != 'string') {
     return [child];
   }
