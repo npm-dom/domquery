@@ -56,6 +56,7 @@ Element methods:
 
 * add
 * addBefore
+* addAfter
 * replace
 * remove
 
