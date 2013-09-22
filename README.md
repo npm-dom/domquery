@@ -1,38 +1,16 @@
-## domquery
+## DOMQUERY
 
-DOM Programming Library
+Minimalistic DOM Programming Library 
 
-```js
-dom = require('domquery')
+## INSTALL
 
-dom('ul li.fruit')
-  .style('background-color', 'red') // or { 'background-color': 'red' }
-  .attr('data-foo', 'bar')
-  .click(onClickFruit) // or: on('click', onClickFruit)
-  .addClass('open')
-  .add('<h1>{title}</h1>{content}', { title: 'Hello', content: 'lorem ipsum' })
-  .on('click', function () { alert('clicked <ul>'); })
-  .on('click li', function () { alert('clicked <li>') })
-  .show()
-```
-
-Keyboard events:
-
-```js
-dom('<input />')
-  .on('> ctrl alt space', function(element, event){ alert('hello!'); })
-  .insert('body');
-```
-
-See full API below and tests for more docs.
-
-## Install
+##### From NPM:
 
 ```bash
 $ npm install domquery
 ```
 
-Or:
+##### Without NPM?
 
 ```bash
 $ wget https://raw.github.com/azer/domquery/master/dist/domquery.min.js
@@ -45,38 +23,100 @@ $ wget https://raw.github.com/azer/domquery/master/dist/domquery.min.js
 </script>
 ```
 
-## API
+## MANUAL
 
-* attr
-* html
-* text
-* val
+### Selecting Elements
 
-Element methods:
+```js
+dom = require('domquery')
+dom('body .foo .bar')
+```
 
-* add
-* addBefore
-* addAfter
-* replace
-* remove
+Details: [select-dom](https://github.com/azer/select-dom)
 
-Class methods:
+###  Changing Style Of Elements
 
+```js
+dom = require('domquery')
+
+dom('body .foo .bar')
+  .style('background-color', 'red')
+// OR
+  .style({
+    'padding': '10px',
+    'margin': '10px'
+  })
+```
+
+Other available Methods:
+* show
+* hide
+
+Details: [style-dom](https://github.com/azer/style-dom)
+
+### Creating, Adding, Inserting Elements
+
+Creating and inserting:
+
+```js
+dom = require('domquery')
+
+dom('<h1>{title}</h1><div>{content}', { title: 'Hello!', content: 'lorem ipsum sit dolar amet' })
+  .insert('body')
+```
+
+Adding:
+
+```js
+dom('body > ul')
+  .add('<h1>{title}</h1><div>{content}', { title: 'Hello!', content: 'lorem ipsum sit dolar amet' })
+```
+
+Other Available Methods:
+* addBefore(child, reference)
+* addAfter(child, reference)
+* replace(target, replacement)
+* remove(element)
+* remove(parent, child)
+
+Details:  [dom-children](https://github.com/azer/dom-children)
+
+### Changing CSS Classes
+
+```js
+dom = require('domquery')
+
+dom('body').addClass('foobar')
+```
+
+Other Available Methods:
 * addClass
 * hasClass
 * removeClass
 * toggleClass
 
-CSS Methods
+Details: [dom-classes](https://github.com/azer/dom-classes)
 
-* show
-* style
-* hide
+### Events
 
-Event methods:
+##### Adding:
 
-* off
-* on
+```js
+dom = require('domquery')
+
+dom('body').on('click', callback = function (event) {
+  console.log('clicked body')
+})
+```
+
+Shortcuts:
+
+```js
+dom('ul li').click(function (event) {
+  console.log('clicked a "li"')
+})
+```
+
 * change
 * click
 * keydown
@@ -87,19 +127,58 @@ Event methods:
 * mouseup
 * resize
 
-## Manuals
+##### Removing:
 
-domquery is based on following libraries. check out their manuals for detailed info:
+```js
+dom('body').off('click', callback) 
+```
 
-* [bind-key](http://github.com/azer/bind-key)
-* [on-off](http://github.com/azer/on-off)
-* [dom-classes](http://github.com/azer/dom-classes)
-* [dom-children](http://github.com/azer/dom-children)
-* [new-element](http://github.com/azer/new-element)
-* [select-dom](http://github.com/azer/select-dom)
-* [style-dom](http://github.com/azer/style-dom)
+##### Delegation:
 
-## Testing
+```js
+dom('body button').on('click', function (event) {
+  console.log('clicked a button!')
+})
+```
+
+##### Keyboard Events:
+
+```js
+dom('input').on('> alt a', function (event) {
+  console.log('user pressed alt + a')
+})
+```
+
+Details:
+* [on-off](https://github.com/azer/on-off)
+* [bind-key](https://github.com/azer/bind-key)
+
+### Reading & Changing Attributes
+
+```js
+dom = require('domquery')
+
+dom('a.my-link').attr('href')
+// => http://foobar.com
+
+dom('a').attr('href', 'http://foobar.com')
+```
+
+## Reading & Changing DOM Content
+
+Reading:
+
+```js
+dom('.foo').html() // equivalent of `innerHTML`
+dom('input.my-input').val() // equivalent of `value`
+```
+
+```js
+dom('.foo').html('<div>new content</div>')
+dom('input.my-input').val('new value')
+```
+
+## TESTING
 
 Run:
 
