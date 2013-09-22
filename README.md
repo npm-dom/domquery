@@ -1,6 +1,6 @@
 ## DOMQUERY
 
-Minimalistic DOM Programming Library 
+DOM Programming Library
 
 ## INSTALL
 
