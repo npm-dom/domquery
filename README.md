@@ -1,47 +1,43 @@
-## DOMQUERY
+## DomQuery
 
-DOM Programming Library
+jQuery-like handy DOM manipulation library composed from all small modules in NPM.
 
-## INSTALL
+Example:
 
-##### From NPM:
+```js
+var dom = require('domquery')
+
+dom('ul.songs:last-child')
+  .add('<li><a href="/play/{id}">Play: {title}</a></li>', { id: 123, title: "foo" })
+  .show()
+```
+
+## Install
 
 ```bash
 $ npm install domquery
 ```
 
-##### Without NPM?
+## Usage
 
-```bash
-$ wget https://raw.github.com/azer/domquery/master/dist/domquery.min.js
-```
-
-```html
-<script src="domquery.min.js"></script>
-<script>
-  query('.fruit').style('color', 'red').show()
-</script>
-```
-
-## MANUAL
-
-### Selecting Elements
+### Selecting
 
 ```js
-dom = require('domquery')
+var dom = require('domquery')
 dom('body .foo .bar')
+// => [array, of, elements]
 ```
 
-Details: [select-dom](https://github.com/azer/select-dom)
+Details: [dom-select](https://github.com/npm-dom/dom-select)
 
-###  Changing Style Of Elements
+### Changing Style
 
 ```js
-dom = require('domquery')
+var dom = require('domquery')
 
 dom('body .foo .bar')
   .style('background-color', 'red')
-// OR
+  // OR
   .style({
     'padding': '10px',
     'margin': '10px'
@@ -52,41 +48,109 @@ Other available Methods:
 * show
 * hide
 
-Details: [style-dom](https://github.com/azer/style-dom)
+Details: [dom-style](https://github.com/npm-dom/dom-style)
 
-### Creating, Adding, Inserting Elements
+### Adding and Removing Elements
 
-Creating and inserting:
+domquery embeds [dom-tree](http://github.com/npm-dom) to provide following methods;
+
+#### `.insert(parent element)`
+
+Insert an element to a parent element.
 
 ```js
-dom = require('domquery')
+var dom = require('domquery')
 
-dom('<h1>{title}</h1><div>{content}', { title: 'Hello!', content: 'lorem ipsum sit dolar amet' })
+dom('<h1>{title}</h1><div>{content}', { title: 'Hello!', content: 'world' })
   .insert('body')
 ```
 
-Adding:
+#### `.add(child)`
+
+Add a new element to specified parent element.
 
 ```js
 dom('body > ul')
-  .add('<h1>{title}</h1><div>{content}', { title: 'Hello!', content: 'lorem ipsum sit dolar amet' })
+  .add('<li>Hello</li>')
 ```
 
-Other Available Methods:
-* addBefore(child, reference)
-* addAfter(child, reference)
-* replace(target, replacement)
-* remove(element)
-* remove(parent, child)
-
-Details:  [dom-children](https://github.com/azer/dom-children)
-
-### Changing CSS Classes
+Or;
 
 ```js
-dom = require('domquery')
+var row = dom('<li>{0}: {1}</li>', 123, 'Hello World')
+dom('body > ul').add(row)
+```
+
+* `child` can be an element, array, selector or HTML.
+
+#### `.addBefore(child, reference)`
+
+Adds `child` before `reference`
+
+```js
+dom('ul.songs')
+  .addBefore('<li>third song</li>', 'ul.songs li:nth-child(3)')
+```
+
+* `child` can be an element, array, selector or HTML.
+* `reference` can be an element, array or selector.
+
+#### `.addAfter(child, reference)`
+
+Adds `child` after `reference`
+
+```js
+dom('ul.songs')
+  .addAfter('<li>third song</li>', 'ul.songs li:nth-child(2)')
+```
+
+* `child` can be an element, array, selector or HTML.
+* `reference` can be an element, array or selector.
+
+#### `.replace(target, replacement)`
+
+Replaces `target` with `replacement`
+
+```js
+dom('ul.songs')
+  .replace('li:first-child', document.createElement('textarea'))
+```
+
+or:
+
+```js
+dom('ul.songs')
+  .replace('li:first-child', '<li>{0}: {name}</li>', 123, 'new song')
+```
+
+#### `.remove(element)`
+
+```js
+dom('ul .songs').remove('li:first-child')
+```
+
+### Inline CSS
+
+Methods: addClass, hasClass, removeClass, toggleClass
+
+Example:
+```js
+var dom = require('domquery')
 
 dom('body').addClass('foobar')
+
+dom('body').hasClass('foobar')
+// => true
+
+dom('body').removeClass('foobar')
+
+dom('body').hasClass('foobar')
+// => false
+
+dom('body').toggleClass('foobar')
+
+dom('body').hasClass('foobar')
+// => true
 ```
 
 Other Available Methods:
@@ -95,16 +159,20 @@ Other Available Methods:
 * removeClass
 * toggleClass
 
-Details: [dom-classes](https://github.com/azer/dom-classes)
+Details: [dom-classes](https://github.com/npm-dom/dom-classes)
 
 ### Events
 
-##### Adding:
+domquery embeds [dom-event](http://github.com/npm-dom/dom-event), [key-event](http://github.com/npm-dom/key-event) and [delegate-dom](http://github.com/npm-dom/delegate-dom) modules to provide following methods;
+
+#### `.on(event, callback)`
+
+Add a new event
 
 ```js
-dom = require('domquery')
+var dom = require('domquery')
 
-dom('body').on('click', callback = function (event) {
+dom('body').on('click', function (event) {
   console.log('clicked body')
 })
 ```
@@ -127,13 +195,17 @@ dom('ul li').click(function (event) {
 * mouseup
 * resize
 
-##### Removing:
+##### `.off(event, callback)`
+
+Remove the event listener;
 
 ```js
-dom('body').off('click', callback) 
+dom('body').off('click', fn)
 ```
 
-##### Delegation:
+#### `.on(event, selector, callback)`
+
+[Delegate event](http://github.com/npm-dom/delegate-dom) handler function for `selector`:
 
 ```js
 dom('body button').on('click', function (event) {
@@ -141,7 +213,9 @@ dom('body button').on('click', function (event) {
 })
 ```
 
-##### Keyboard Events:
+#### `.on(> event, callback)`
+
+Events started with `>` will be considered as a [keyboard event](http://github.com/npm-dom/key-event):
 
 ```js
 dom('input').on('> alt a', function (event) {
@@ -149,14 +223,10 @@ dom('input').on('> alt a', function (event) {
 })
 ```
 
-Details:
-* [on-off](https://github.com/azer/on-off)
-* [bind-key](https://github.com/azer/bind-key)
-
-### Reading & Changing Attributes
+### Attributes
 
 ```js
-dom = require('domquery')
+var dom = require('domquery')
 
 dom('a.my-link').attr('href')
 // => http://foobar.com
@@ -164,7 +234,7 @@ dom('a.my-link').attr('href')
 dom('a').attr('href', 'http://foobar.com')
 ```
 
-## Reading & Changing DOM Content
+### Content
 
 Reading:
 
@@ -173,19 +243,13 @@ dom('.foo').html() // equivalent of `innerHTML`
 dom('input.my-input').val() // equivalent of `value`
 ```
 
+Setting:
+
 ```js
 dom('.foo').html('<div>new content</div>')
 dom('input.my-input').val('new value')
 ```
 
-## TESTING
-
-Run:
-
-```bash
-$ npm test
-```
-
-And visit localhost:7559.
+More info about it is at [dom-value](http://github.com/npm-dom/dom-value)
 
 ![](https://dl.dropboxusercontent.com/s/ofqr0ha1all2nbl/npmel_30.jpg)

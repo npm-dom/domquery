@@ -1,42 +1,39 @@
 {
   "name": "domquery",
-  "version": "1.0.0",
-  "description": "Handy jQuery-like DOM Programming Library",
+  "version": "1.0.1",
+  "description": "jQuery-like Handy DOM Manipulation Library",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/indev test"
+    "test": "node test -b"
   },
   "repository": {
-    "url": "git@github.com:azer/domquery.git",
+    "url": "git@github.com:npm-dom/domquery.git",
     "type": "git"
   },
   "keywords": [
-    "jquery",
-    "dom"
+    "dom",
+    "browser",
+    "npm-dom",
+    "jquery"
   ],
   "author": "Azer Koçulu <azer@kodfabrik.com>",
   "license": "BSD",
   "dependencies": {
-    "to-camel-case": "~0.2.0",
     "new-chain": "0.0.x",
-    "domify": "~1.0.0",
-    "keynames": "0.0.0",
-    "new-format": "0.0.1",
-    "on-off": "0.0.2",
-    "delegate-dom": "0.0.0",
-    "bind-key": "0.0.0",
+    "format-text": "0.0.x",
+    "dom-event": "0.0.x",
+    "delegate-dom": "0.0.x",
+    "key-event": "0.0.x",
     "trim": "0.0.1",
-    "dom-classes": "0.0.0",
-    "dom-children": "0.0.x",
-    "new-element": "0.0.1",
-    "select-dom": "0.0.0",
-    "style-dom": "0.0.0"
+    "dom-classes": "0.0.x",
+    "dom-tree": "0.0.x",
+    "new-element": "0.0.x",
+    "dom-select": "0.0.x",
+    "dom-style": "0.0.x",
+    "dom-value": "0.0.0"
   },
   "devDependencies": {
-    "fox": "*",
-    "indev": "*",
-    "random-color": "*",
-    "uglify-js":"*",
-    "one": "*"
+    "prova": "*",
+    "random-color": "*"
   }
 }
