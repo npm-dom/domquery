@@ -208,8 +208,8 @@ dom('body').off('click', fn)
 [Delegate event](http://github.com/npm-dom/delegate-dom) handler function for `selector`:
 
 ```js
-dom('body button').on('click', function (event) {
-  console.log('clicked a button!')
+dom('body ul').on('click', 'li', function (event) {
+  console.log('clicked a list item!')
 })
 ```
 
