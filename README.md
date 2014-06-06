@@ -213,14 +213,28 @@ dom('body ul').on('click', 'li', function (event) {
 })
 ```
 
-#### `.on(> event, callback)`
+#### `.onKey(event, callback)`
 
-Events started with `>` will be considered as a [keyboard event](http://github.com/npm-dom/key-event):
+Adds a [keyboard event](http://github.com/npm-dom/key-event):
 
 ```js
-dom('input').on('> alt a', function (event) {
+dom('input').onKey('alt a', function (event) {
   console.log('user pressed alt + a')
 })
+```
+
+
+#### `.offKey(event, callback)`
+
+Removes a [keyboard event](http://github.com/npm-dom/key-event):
+
+```js
+dom('input').onKey('alt a', altA)
+dom('input').offKey('alt a', altA)
+
+function altA (event) {
+  console.log('user pressed alt + a')
+}
 ```
 
 ### Attributes
