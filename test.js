@@ -259,7 +259,7 @@ function fruits () {
 function reset (done){
   document.body.innerHTML = HTML;
 
-  dom('textarea').on('> alt space', function () {
+  dom('textarea').onKey('alt space', function () {
     dom('textarea').val('');
   });
 };
