@@ -241,6 +241,17 @@ test('initializes a chain with given elements', function (t) {
 
 });
 
+test('event delegation', function (t) {
+  t.plan(1);
+
+  dom('.fruits').on('click', 'li', function () {
+    t.ok(true);
+  });
+
+  dom('.fruits').add('<li id="delegation-test-el">yo</li>');
+  dom('#delegation-test-el')[0].click();
+});
+
 function fruits () {
   return Array.prototype.slice.call(document.querySelectorAll('.fruits .fruit'));
 }

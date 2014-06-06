@@ -22,7 +22,6 @@
     "new-chain": "0.0.x",
     "format-text": "0.0.x",
     "dom-event": "0.0.x",
-    "delegate-dom": "0.0.x",
     "key-event": "0.0.x",
     "trim": "0.0.1",
     "dom-classes": "0.0.x",
@@ -30,7 +29,8 @@
     "new-element": "0.0.x",
     "dom-select": "0.0.x",
     "dom-style": "0.0.x",
-    "dom-value": "0.0.0"
+    "dom-value": "0.0.0",
+    "component-delegate": "0.2.2"
   },
   "devDependencies": {
     "prova": "*",
