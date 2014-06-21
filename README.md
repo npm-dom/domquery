@@ -38,7 +38,7 @@ dom('.foo', '.bar', '.qux').siblings('button.tweet')
 // [all siblings that matches "button.tweet"]
 ```
 
-Details: [dom-select](https://github.com/npm-dom/dom-select)
+Details: [dom-select](https://github.com/npm-dom/dom-select), [siblings](http://github.com/npm-dom/siblings), [closest](https://github.com/component/closest)
 
 ### Changing Style
 
