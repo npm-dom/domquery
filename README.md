@@ -24,8 +24,18 @@ $ npm install domquery
 
 ```js
 var dom = require('domquery')
+
 dom('body .foo .bar')
 // => [array, of, elements]
+
+dom('.foo', '.bar', '.qux').select('*')
+// [all children of .foo, .bar, .qux]
+
+dom('.foo', '.bar', '.qux').parent()
+// [parent elements of .foo, .bar, .qux]
+
+dom('.foo', '.bar', '.qux').siblings('button.tweet')
+// [all siblings that matches "button.tweet"]
 ```
 
 Details: [dom-select](https://github.com/npm-dom/dom-select)
@@ -54,7 +64,7 @@ Details: [dom-style](https://github.com/npm-dom/dom-style)
 
 domquery embeds [dom-tree](http://github.com/npm-dom) to provide following methods;
 
-#### `.insert(parent element)`
+#### .insert(parent element)
 
 Insert an element to a parent element.
 
@@ -65,7 +75,7 @@ dom('<h1>{title}</h1><div>{content}', { title: 'Hello!', content: 'world' })
   .insert('body')
 ```
 
-#### `.add(child)`
+#### .add(child)
 
 Add a new element to specified parent element.
 
@@ -83,7 +93,7 @@ dom('body > ul').add(row)
 
 * `child` can be an element, array, selector or HTML.
 
-#### `.addBefore(child, reference)`
+#### .addBefore(child, reference)
 
 Adds `child` before `reference`
 
@@ -95,7 +105,7 @@ dom('ul.songs')
 * `child` can be an element, array, selector or HTML.
 * `reference` can be an element, array or selector.
 
-#### `.addAfter(child, reference)`
+#### .addAfter(child, reference)
 
 Adds `child` after `reference`
 
@@ -107,7 +117,7 @@ dom('ul.songs')
 * `child` can be an element, array, selector or HTML.
 * `reference` can be an element, array or selector.
 
-#### `.replace(target, replacement)`
+#### .replace(target, replacement)
 
 Replaces `target` with `replacement`
 
@@ -123,7 +133,7 @@ dom('ul.songs')
   .replace('li:first-child', '<li>{0}: {name}</li>', 123, 'new song')
 ```
 
-#### `.remove(element)`
+#### .remove(element)
 
 ```js
 dom('ul .songs').remove('li:first-child')
@@ -165,7 +175,7 @@ Details: [dom-classes](https://github.com/npm-dom/dom-classes)
 
 domquery embeds [dom-event](http://github.com/npm-dom/dom-event), [key-event](http://github.com/npm-dom/key-event) and [delegate-dom](http://github.com/npm-dom/delegate-dom) modules to provide following methods;
 
-#### `.on(event, callback)`
+#### .on(event, callback)
 
 Add a new event
 
@@ -195,7 +205,7 @@ dom('ul li').click(function (event) {
 * mouseup
 * resize
 
-##### `.off(event, callback)`
+##### .off(event, callback)
 
 Remove the event listener;
 
@@ -203,7 +213,7 @@ Remove the event listener;
 dom('body').off('click', fn)
 ```
 
-#### `.on(event, selector, callback)`
+#### .on(event, selector, callback)
 
 [Delegate event](http://github.com/npm-dom/delegate-dom) handler function for `selector`:
 
@@ -213,7 +223,7 @@ dom('body ul').on('click', 'li', function (event) {
 })
 ```
 
-#### `.onKey(event, callback)`
+#### .onKey(event, callback)
 
 Adds a [keyboard event](http://github.com/npm-dom/key-event):
 
@@ -224,7 +234,7 @@ dom('input').onKey('alt a', function (event) {
 ```
 
 
-#### `.offKey(event, callback)`
+#### .offKey(event, callback)
 
 Removes a [keyboard event](http://github.com/npm-dom/key-event):
 
