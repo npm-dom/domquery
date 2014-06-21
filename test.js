@@ -230,6 +230,13 @@ test('selects the children', function (t) {
   t.equal(newf.length, clone.length);
 });
 
+test('selects children of multiple elements', function (t) {
+  var all = dom('body > *');
+  var children = all.select('*');
+  t.plan(1);
+  t.equal(children.length, dom('ul li').length);
+});
+
 test('initializes a chain with given elements', function (t) {
   t.plan(7);
 
@@ -250,6 +257,28 @@ test('event delegation', function (t) {
 
   dom('.fruits').add('<li id="delegation-test-el">yo</li>');
   dom('#delegation-test-el')[0].click();
+});
+
+test('finding parents', function (t) {
+  t.plan(4);
+  t.equal(dom('li').parent().length, 1);
+  t.equal(dom('li').parent()[0], dom('ul.fruits')[0]);
+  t.equal(dom('li').parent('body')[0], dom('body')[0]);
+  t.equal(dom('li').parent('#foo').length, 0);
+});
+
+test('selecting siblings', function (t) {
+  t.plan(3);
+
+  dom('<li class="delicious fruit cherry">cherry</li>').insert('ul.fruits');
+  dom('<li class="delicious fruit watermelon">watermelon</li>').insert('ul.fruits');
+  dom('<li class="delicious fruit grapes">grapes!</li>').insert('ul.fruits');
+  dom('<li class="also-delicious fruit">carrot</li>').insert('ul.fruits');
+
+  var assert = ['cherry', 'watermelon', 'grapes!'];
+  dom('.also-delicious').siblings('.delicious.fruit').forEach(function (el, ind) {
+    t.equal(assert[ind], el.textContent);
+  });
 });
 
 function fruits () {
