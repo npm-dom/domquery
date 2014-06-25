@@ -1,6 +1,6 @@
 ## DomQuery
 
-jQuery-like handy DOM manipulation library composed from all small modules in NPM.
+jQuery-like handy DOM manipulation library composed from small modules in NPM.
 
 Example:
 
