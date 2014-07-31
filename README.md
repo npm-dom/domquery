@@ -20,7 +20,7 @@ $ npm install domquery
 
 ## Usage
 
-Recommended to use [browserify](http://github.com/substack/node-browserify) for bundling for client-side.
+Recommended to use [browserify](http://github.com/substack/node-browserify) for bundling for client-side. Sorry, it does not work in Node.
 
 ### Selecting
 
