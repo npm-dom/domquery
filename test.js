@@ -1,4 +1,4 @@
-var test = require('prova');
+var test = require('tape');
 var dom = require("./");
 var randomColor = require('random-color');
 
